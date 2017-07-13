@@ -7,6 +7,7 @@
 class Event {
 
     private $event_id, $event_date, $event_title, $event_cotent, $user_id;
+    
 
     function __construct($event_id = null, $event_date = null, $event_title = null, $event_cotent = null, $user_id = null) {
         $this->event_id = $event_id;
@@ -16,13 +17,13 @@ class Event {
         $this->user_id = $user_id;
     }
 
-    function getEvents($linit = null) {
+    function getEvents($limit = null) {
         global $wm_cms;
-        if ($linit == null) {
-            $linit = 100;
+        if ($limit == null) {
+            $limit = 100;
         }
-        if ($stmt = $wm_cms->database->query('SELECT * from events ORDER BY event_date DESC LIMIT ' . $linit)) {
-            
+        if ($stmt = $wm_cms->database->query('SELECT * from events ORDER BY event_date DESC LIMIT ' . $limit)) {
+            // $stmt->execute();
             $i = 0;
             while ($row = $stmt->fetchArray()) {
                 $results[$i++] = $row;
@@ -33,10 +34,8 @@ class Event {
 
     function getEvent($id) {
         global $wm_cms;
-        
         if ($stmt = $wm_cms->database->query('SELECT * from events WHERE event_id = ' . $id)) {
-        
-            while ($row = $stmt->fetchArray()) {
+        while ($row = $stmt->fetchArray()) {
                 $results[0] = $row;
             }
             return $results;
@@ -45,10 +44,10 @@ class Event {
 
     public function addEvent() {
         global $wm_cms;
-      
+        
         if (isset($_POST['event_title'])) {
 
-            
+           
             $title = htmlspecialchars(($_POST['event_title']));
             $content = htmlspecialchars($_POST['event_content']);
             $date = date('Y-m-d');
